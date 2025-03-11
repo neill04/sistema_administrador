@@ -29,7 +29,8 @@
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger" onclick="return confirm('¿Seguro que quieres eliminar?')">Eliminar</button>
-                            </form>
+                            		<button class="btn btn-primary">Botón de prueba</button>
+														</form>
                         </td>
                     </tr>
                 @endforeach
