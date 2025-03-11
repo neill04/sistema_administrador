@@ -8,14 +8,22 @@ use Illuminate\Database\Eloquent\Model;
 class Empresa extends Model
 {
     use HasFactory;
-    
-    protected $table = 'empresas'; // Asegúrate de que coincida con la tabla en PostgreSQL
-    protected $fillable = [
-        'nombre',
-        'descripcion',
-        'direccion',
-        'telefono',
-        'correo',
-        'sitio_web'
-    ];// Ajusta según las columnas de tu tabla
+
+    protected $table = 'empresas';
+    protected $fillable = ['nombre', 'pais_id', 'departamento_id', 'empresa_tipo_id'];
+
+    public function pais()
+    {
+        return $this->belongsTo(Pais::class);
+    }
+
+    public function departamento()
+    {
+        return $this->belongsTo(Departamento::class);
+    }
+
+    public function tipo()
+    {
+        return $this->belongsTo(EmpresaTipo::class, 'empresa_tipo_id');
+    }
 }
