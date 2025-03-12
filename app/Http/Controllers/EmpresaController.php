@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Empresa;
+use App\Models\Pais;
+use App\Models\Departamento;
+use App\Models\EmpresaTipo;
 
 class EmpresaController extends Controller
 {
@@ -12,8 +15,11 @@ class EmpresaController extends Controller
      */
     public function index()
     {
-        $empresas = Empresa::all();
-    		return view('empresas.index', compact('empresas'));
+        $empresa_tipos = EmpresaTipo::all(); // Asegúrate de que este modelo existe y está importado
+        $paises = Pais::all(); // Si usas países, asegúrate de que se pasa también
+        $departamentos = Departamento::all(); // Lo mismo para los departamentos
+        $empresas = Empresa::with('tipo')->get();
+        return view('empresas.index', compact('empresa_tipos', 'paises', 'departamentos','empresas'));
     }
 
     /**
@@ -21,7 +27,10 @@ class EmpresaController extends Controller
      */
     public function create()
     {
-        return view('empresas.create');
+        $paises = Pais::all();
+        $departamentos = Departamento::all();
+        $tipos = EmpresaTipo::all();
+        return view('empresas.create', compact('paises', 'departamentos', 'tipos'));
     }
 
     /**
@@ -30,13 +39,41 @@ class EmpresaController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-        'nombre' => 'required|string|max:255',
-        'correo' => 'required|email|unique:empresas',
-    		]);
+            'ruc' => 'required|string|max:20|unique:empresas,ruc',
+            'nombre' => 'required|string|max:255',
+            'direccion' => 'required|string|max:255',
+            'telefono1' => 'required|string|max:20',
+            'telefono2' => 'nullable|string|max:20',
+            'email' => 'nullable|email|max:255',
+            'web' => 'nullable|url|max:255',
+            'descripcion' => 'nullable|string',
+            'banner' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'logotipo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'pais_id' => 'required|exists:paises,id',
+            'departamento_id' => 'required|exists:departamentos,id',
+            'empresa_tipo_id' => 'required|exists:empresa_tipos,id',
+        ]);        
 
-   			Empresa::create($request->all());
+        $bannerPath = $request->hasFile('banner') ? $request->file('banner')->store('banners', 'public') : null;
+        $logotipoPath = $request->hasFile('logotipo') ? $request->file('logotipo')->store('logotipos', 'public') : null;
 
-    		return redirect()->route('empresas.index')->with('success', 'Empresa creada exitosamente.');
+        Empresa::create([
+            'ruc' => $request->ruc,
+            'nombre' => $request->nombre,
+            'direccion' => $request->direccion,
+            'telefono1' => $request->telefono1,
+            'telefono2' => $request->telefono2,
+            'email' => $request->email,
+            'web' => $request->web,
+            'descripcion' => $request->descripcion,
+            'banner' => $bannerPath,
+            'logotipo' => $logotipoPath,
+            'pais_id' => $request->pais_id,
+            'departamento_id' => $request->departamento_id,
+            'empresa_tipo_id' => $request->empresa_tipo_id,
+        ]);
+
+        return response()->json(['message' => 'Empresa creada correctamente'], 201);
     }
 
     /**
@@ -44,15 +81,19 @@ class EmpresaController extends Controller
      */
     public function show(Empresa $empresa)
     {
-        return view('empresas.show', compact('empresa'));
+        return response()->json($empresa->load(['pais', 'departamento', 'empresaTipo']));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Empresa $empresa)
+    public function edit($id)
     {
-        return view('empresas.edit', compact('empresa'));
+        $empresa = Empresa::findOrFail($id);
+        $paises = Pais::all();
+        $departamentos = Departamento::all();
+        $tipos = EmpresaTipo::all();
+        return view('empresas.edit', compact('empresa', 'paises', 'departamentos', 'tipos'));
     }
 
     /**
@@ -61,13 +102,15 @@ class EmpresaController extends Controller
     public function update(Request $request, Empresa $empresa)
     {
         $request->validate([
-        'nombre' => 'required|string|max:255',
-        'correo' => 'required|email|unique:empresas,correo,' . $empresa->id,
-    		]);
+            'nombre' => 'sometimes|string|max:255',
+            'pais_id' => 'sometimes|exists:paises,id',
+            'departamento_id' => 'sometimes|exists:departamentos,id',
+            'empresa_tipo_id' => 'sometimes|exists:empresa_tipos,id',
+        ]);
 
-   	 		$empresa->update($request->all());
+        $empresa->update($request->all());
 
-    		return redirect()->route('empresas.index')->with('success', 'Empresa actualizada correctamente.');
+        return response()->json(['message' => 'Empresa actualizada correctamente']);
     }
 
     /**
@@ -76,6 +119,6 @@ class EmpresaController extends Controller
     public function destroy(Empresa $empresa)
     {
         $empresa->delete();
-    		return redirect()->route('empresas.index')->with('success', 'Empresa eliminada.');
+        return response()->json(['message' => 'Empresa eliminada correctamente']);
     }
 }
