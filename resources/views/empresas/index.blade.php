@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Gestión de Empresas</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
@@ -15,7 +16,12 @@
             + Nueva Empresa
         </button>
 
-        <table class="table table-striped">
+        <div class="mb-3">
+            <label for="buscar" class="form-label fw-bold">Buscar por Empresa:</label>
+            <input type="text" class="form-control" id="buscar" placeholder="Buscar por RUC o razón social">
+        </div>
+
+        <table class="table table-bordered table-striped">
             <thead>
                 <tr>
                     <th>#</th>
@@ -29,7 +35,7 @@
             </thead>
             <tbody>
                 @foreach ($empresas as $index => $empresa)
-                    <tr>
+                    <tr id="empresa-{{ $empresa->id }}">
                         <td>{{ $index + 1 }}</td>
                         <td>{{ $empresa->ruc }}</td>
                         <td>{{ $empresa->nombre }}</td> 
@@ -39,11 +45,7 @@
                         <td>
                             <a href="{{ route('empresas.edit', $empresa->id) }}" class="btn btn-warning">✏️</a>
                             <a href="{{ route('empresas.show', $empresa->id) }}" class="btn btn-info">🔍</a>
-                            <form action="{{ route('empresas.destroy', $empresa->id) }}" method="POST" style="display:inline;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger">🗑️</button>
-                            </form>
+                            <button class="btn btn-danger delete-btn" data-id="{{ $empresa->id }}">🗑️</button>
                         </td>
                     </tr>
                 @endforeach
@@ -136,6 +138,35 @@
     </div>
 </div>
 
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    document.querySelectorAll(".delete-btn").forEach(button => {
+        button.addEventListener("click", function() {
+            let id = this.dataset.id;
+            if (!confirm("¿Estás seguro de eliminar esta empresa?")) return;
+
+            fetch(`/empresas/${id}`, {
+                method: "DELETE",
+                headers: {
+                    "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute("content"),
+                    "Content-Type": "application/json"
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById(`empresa-${id}`).remove();
+                    alert("Empresa eliminada correctamente");
+                } else {
+                    alert("Error al eliminar la empresa");
+                }
+            })
+            .catch(error => console.error("Error:", error));
+        });
+    });
+});
+</script>
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function () {
@@ -171,5 +202,15 @@
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#buscar").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("table tbody tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+            });
+        });
+    });
+</script>
 </body>
 </html>
