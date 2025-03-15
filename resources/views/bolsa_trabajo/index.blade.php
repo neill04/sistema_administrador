@@ -52,6 +52,18 @@
             </tbody>
         </table>
     </div>
+
+    <ul class="nav nav-tabs">
+    <li class="nav-item">
+        <a class="nav-link active" data-bs-toggle="tab" href="#empresas">Gestión de Empresas</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-bs-toggle="tab" href="#ofertas">Gestión de Ofertas</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-bs-toggle="tab" href="#postulaciones">Postulaciones</a>
+    </li>
+    </ul>
     
 <!-- Modal -->
 <div class="modal fade" id="modalEmpresa" tabindex="-1" aria-labelledby="modalEmpresaLabel" aria-hidden="true">
