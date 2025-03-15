@@ -10,9 +10,6 @@ use App\Models\EmpresaTipo;
 
 class EmpresaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $empresa_tipos = EmpresaTipo::all(); // Asegúrate de que este modelo existe y está importado
@@ -22,9 +19,6 @@ class EmpresaController extends Controller
         return view('empresas.index', compact('empresa_tipos', 'paises', 'departamentos','empresas'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         $paises = Pais::all();
@@ -33,9 +27,6 @@ class EmpresaController extends Controller
         return view('empresas.create', compact('paises', 'departamentos', 'tipos'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $request->validate([
@@ -76,17 +67,11 @@ class EmpresaController extends Controller
         return response()->json(['message' => 'Empresa creada correctamente'], 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Empresa $empresa)
     {
         return response()->json($empresa->load(['pais', 'departamento', 'empresaTipo']));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit($id)
     {
         $empresa = Empresa::findOrFail($id);
@@ -96,9 +81,6 @@ class EmpresaController extends Controller
         return view('empresas.edit', compact('empresa', 'paises', 'departamentos', 'tipos'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Empresa $empresa)
     {
         $request->validate([
@@ -113,9 +95,6 @@ class EmpresaController extends Controller
         return response()->json(['message' => 'Empresa actualizada correctamente']);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Empresa $empresa)
     {
         $empresa->delete();

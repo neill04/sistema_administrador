@@ -11,13 +11,21 @@ use App\Http\Controllers\DepartamentoController;
 use App\Http\Controllers\EmpresaTipoController;
 use App\Http\Controllers\PaisController;
 
+// Oferta
+use App\Http\Controllers\OfertaController;
+use App\Http\Controllers\OfertaAtributoController;
+
 Route::resource('empresas', EmpresaController::class);
 Route::get('/paises', [PaisController::class, 'index']);
 Route::get('/departamentos', [DepartamentoController::class, 'index']);
 Route::get('/tipos-empresa', [EmpresaTipoController::class, 'index']);
-Route::get('/empresas', [EmpresaController::class, 'index'])->name('empresas.index');
+Route::get('/empresas', [EmpresaController::class, 'index'])->name('empresas.index'); // Mostrar todas las empresas
 Route::get('/empresas/create', [EmpresaController::class, 'create'])->name('empresas.create');
-Route::post('/empresas', [EmpresaController::class, 'store'])->name('empresas.store');
+Route::post('/empresas', [EmpresaController::class, 'store'])->name('empresas.store'); // Guardar una nueva empresa
+
+// Ruta para ofertas
+Route::resource('ofertas', OfertaController::class); // Crea las rutas CRUD para ofertas
+Route::resource('ofertas.atributos', OfertaAtributoController::class)->shallow(); 
 
 
 
