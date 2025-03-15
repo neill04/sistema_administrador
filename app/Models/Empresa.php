@@ -30,4 +30,9 @@ class Empresa extends Model
     {
         return $this->belongsTo(EmpresaTipo::class, 'empresa_tipo_id');
     }
+
+    public function ofertas()
+    {
+        return $this->hasMany(Oferta::class);
+    }
 }
