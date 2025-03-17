@@ -7,9 +7,9 @@ use Illuminate\Http\Request;
 
 class PaisController extends Controller
 {
-    public function index()
+    public function create()
     {
-        $paises = Pais::all();
-        return response()->json($paises);
+        $paises = Pais::all(); // Obtiene todos los paises
+        return view('empresas.index', compact('paises')); // Envía los datos a la vista
     }
 }

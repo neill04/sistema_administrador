@@ -39,7 +39,7 @@
                         <td>{{ $index + 1 }}</td>
                         <td>{{ $empresa->ruc }}</td>
                         <td>{{ $empresa->nombre }}</td> 
-                        <td>{{ $empresa->tipo->nombre ?? 'Sin definir' }}</td> 
+                        <td>{{ $empresa->empresaTipo->nombre ?? 'Sin definir' }}</td> 
                         <td></td> 
                         <td></td> 
                         <td>

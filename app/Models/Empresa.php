@@ -26,7 +26,7 @@ class Empresa extends Model
         return $this->belongsTo(Departamento::class);
     }
 
-    public function tipo()
+    public function empresaTipo()
     {
         return $this->belongsTo(EmpresaTipo::class, 'empresa_tipo_id');
     }

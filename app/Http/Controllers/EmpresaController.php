@@ -15,7 +15,7 @@ class EmpresaController extends Controller
         $empresa_tipos = EmpresaTipo::all(); // Asegúrate de que este modelo existe y está importado
         $paises = Pais::all(); // Si usas países, asegúrate de que se pasa también
         $departamentos = Departamento::all(); // Lo mismo para los departamentos
-        $empresas = Empresa::with('tipo')->get();
+        $empresas = Empresa::with('empresaTipo')->get();
         return view('empresas.index', compact('empresa_tipos', 'paises', 'departamentos','empresas'));
     }
 
@@ -69,7 +69,9 @@ class EmpresaController extends Controller
 
     public function show(Empresa $empresa)
     {
-        return response()->json($empresa->load(['pais', 'departamento', 'empresaTipo']));
+        return view('empresas.show', [
+            'empresa' => $empresa->load(['pais', 'departamento', 'empresaTipo'])
+        ]);
     }
 
     public function edit($id)
