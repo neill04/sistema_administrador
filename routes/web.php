@@ -18,10 +18,11 @@ use App\Http\Controllers\OfertaAtributoController;
 Route::resource('empresas', EmpresaController::class);
 Route::get('/paises', [PaisController::class, 'index']);
 Route::get('/departamentos', [DepartamentoController::class, 'index']);
-Route::get('/tipos-empresa', [EmpresaTipoController::class, 'index']);
+Route::get('/empresa_tipos', [EmpresaTipoController::class, 'index']);
 Route::get('/empresas', [EmpresaController::class, 'index'])->name('empresas.index'); // Mostrar todas las empresas
 Route::get('/empresas/create', [EmpresaController::class, 'create'])->name('empresas.create');
 Route::post('/empresas', [EmpresaController::class, 'store'])->name('empresas.store'); // Guardar una nueva empresa
+Route::put('/empresas/{empresa}', [EmpresaController::class, 'update'])->name('empresas.update');
 
 // Ruta para ofertas
 Route::resource('ofertas', OfertaController::class); // Crea las rutas CRUD para ofertas
