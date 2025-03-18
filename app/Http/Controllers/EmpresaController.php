@@ -16,7 +16,7 @@ class EmpresaController extends Controller
         $paises = Pais::all(); // Si usas países, asegúrate de que se pasa también
         $departamentos = Departamento::all(); // Lo mismo para los departamentos
         $empresas = Empresa::with('empresaTipo')->get();
-        return view('empresas.index', compact('empresa_tipos', 'paises', 'departamentos','empresas'));
+        return view('bolsa_trabajo.empresas.index', compact('empresa_tipos', 'paises', 'departamentos','empresas'));
     }
 
     public function create()
@@ -24,7 +24,9 @@ class EmpresaController extends Controller
         $paises = Pais::all();
         $departamentos = Departamento::all();
         $tipos = EmpresaTipo::all();
-        return view('empresas.create', compact('paises', 'departamentos', 'tipos'));
+        $html = view('bolsa_trabajo.empresas.modal_create', compact('paises', 'departamentos', 'tipos'))->render();
+
+        return response()->json(['html' => $html]);
     }
 
     public function store(Request $request)
@@ -80,21 +82,46 @@ class EmpresaController extends Controller
         $paises = Pais::all();
         $departamentos = Departamento::all();
         $tipos = EmpresaTipo::all();
-        return view('empresas.edit', compact('empresa', 'paises', 'departamentos', 'tipos'));
+        return view('bolsa_trabajo.empresas.index', compact('empresa', 'paises', 'departamentos', 'tipos'));
     }
 
-    public function update(Request $request, Empresa $empresa)
+    public function update(Request $request, $id)
     {
-        $request->validate([
-            'nombre' => 'sometimes|string|max:255',
-            'pais_id' => 'sometimes|exists:paises,id',
-            'departamento_id' => 'sometimes|exists:departamentos,id',
-            'empresa_tipo_id' => 'sometimes|exists:empresa_tipos,id',
-        ]);
-
-        $empresa->update($request->all());
-
-        return response()->json(['message' => 'Empresa actualizada correctamente']);
+            $empresa = Empresa::findOrFail($id);
+            
+            // Validar los datos
+            $request->validate([
+                'nombre' => 'required|string|max:255',
+                'email' => 'nullable|email',
+                'web' => 'nullable|url',
+                'pais_id' => 'required|exists:paises,id',
+                'departamento_id' => 'required|exists:departamentos,id',
+                'empresa_tipo_id' => 'required|exists:empresa_tipos,id',
+            ]);
+        
+            // Actualizar los datos
+            $empresa->update($request->except(['logotipo', 'banner']));
+        
+            // Subir logotipo si se proporciona
+            if ($request->hasFile('logotipo')) {
+                $logotipoPath = $request->file('logotipo')->store('logotipos', 'public');
+                $empresa->logotipo = $logotipoPath;
+            }
+        
+            // Subir banner si se proporciona
+            if ($request->hasFile('banner')) {
+                $bannerPath = $request->file('banner')->store('banners', 'public');
+                $empresa->banner = $bannerPath;
+            }
+        
+            // Guardar cambios
+            $empresa->save();
+        
+            // Flash message
+            session()->flash('success', 'Empresa editada correctamente.');
+        
+            // Redirigir a la vista index
+            return redirect()->route('empresas.index');
     }
 
     public function destroy(Empresa $empresa)
