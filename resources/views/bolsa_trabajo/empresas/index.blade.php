@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.bolsa_laboral')
 
 @section('content')
 <div class="container">

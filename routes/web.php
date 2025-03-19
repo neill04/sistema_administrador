@@ -2,9 +2,16 @@
 
 use Illuminate\Support\Facades\Route;
 
+// Ruta para el manejo de la bolsa laboral
+Route::get('/bolsa_laboral', function () {
+    return view('bolsa_trabajo.index'); 
+})->name('bolsa_laboral');
+
+// Ruta inicial de la página web
 Route::get('/', function () {
-    return view('welcome');
-})->name('home');
+    return view('inicio');
+})->name('inicio');
+
 
 use App\Http\Controllers\EmpresaController;
 use App\Http\Controllers\DepartamentoController;
