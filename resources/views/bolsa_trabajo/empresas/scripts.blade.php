@@ -63,45 +63,6 @@ $(document).ready(function () {
         });
     });
 
-    /*
-    // Abrir el modal con los datos de la empresa
-    $(document).on("click", ".btnEditarEmpresa", function () {
-        let empresaId = $(this).data("id");
-
-        $.get("/empresas/" + empresaId + "/edit", function (data) {
-            $("#modalContainer").html(data.html);
-            $("#empresaModal").modal("show");
-        }).fail(function () {
-            alert("Error al cargar la empresa.");
-        });
-    });
-
-    // Enviar formulario de edición por AJAX
-    $(document).on("submit", "#empresaFormEdit", function (e) {
-        e.preventDefault();
-
-        let empresaId = $("#empresaId").val();
-        let formData = new FormData(this);
-
-        $.ajax({
-            url: "/empresas/" + empresaId,
-             // Laravel requiere PUT, pero se puede usar POST con @method('PUT')
-            data: formData,
-            processData: false,
-            contentType: false,
-            headers: { "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content") },
-            success: function (response) {
-                alert("Empresa actualizada correctamente");
-                $("#empresaModal").modal("hide");
-                location.reload();
-            },
-            error: function (xhr) {
-                alert("Error al actualizar la empresa");
-            }
-        });
-    });
-    */
-
     // Eliminar empresa
     $(document).on("click", ".btnEliminarEmpresa", function () {
         let empresaId = $(this).data("id");

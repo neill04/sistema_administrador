@@ -3,39 +3,40 @@
 @section('content')
 <div class="container">
     <h2>Gestión de Empresas</h2>
-    <button id="btnCrearEmpresa" class="btn btn-success">Nueva Empresa</button>
-
-    <table class="table mt-3">
-        <thead>
-            <tr>
-                <th>Nro</th>
-                <th>RUC</th>
-                <th>Razón social</th>
-                <th>Tipo Empresa</th>
-                <th>Reclutador</th>
-                <th>Celular</th>
-                <th>Total</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($empresas as $empresa)
-            <tr>
-                <td>{{ $empresa->id }}</td>
-                <td>{{ $empresa->ruc }}</td>
-                <td>{{ $empresa->nombre }}</td>
-                <td>{{ $empresa->empresaTipo->nombre }}</td>
-                <td></td>
-                <td></td>
-                <td>0</td>
-                <td>
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#empresaModal{{ $empresa->id }}">Editar</button>
-                <button class="btn btn-danger btnEliminarEmpresa" data-id="{{ $empresa->id }}">Eliminar</button>
-                </td>
-            </tr>
-            @endforeach
-        </tbody>
-    </table>
+    <button id="btnCrearEmpresa" class="btn btn-success"> + Nueva Empresa</button><br><br>
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Nro</th>
+                    <th>RUC</th>
+                    <th>Razón social</th>
+                    <th>Tipo Empresa</th>
+                    <th>Reclutador</th>
+                    <th>Celular</th>
+                    <th>Total</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($empresas as $empresa)
+                <tr>
+                    <td>{{ $empresa->id }}</td>
+                    <td>{{ $empresa->ruc }}</td>
+                    <td>{{ $empresa->nombre }}</td>
+                    <td>{{ $empresa->empresaTipo->nombre }}</td>
+                    <td>72865396 Neill Elverth Olazabal Chavez</td>
+                    <td>991710428</td>
+                    <td>0</td>
+                    <td>
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#empresaModal{{ $empresa->id }}">Editar</button>
+                    <button class="btn btn-danger btnEliminarEmpresa" data-id="{{ $empresa->id }}">Eliminar</button>
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
 </div>
 
 <!-- Contenedor donde se insertarán los modales -->
