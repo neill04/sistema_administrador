@@ -4,18 +4,22 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Oferta;
+use App\Models\Empresa;
 
 class OfertaController extends Controller
 {
     public function index()
     {
         $ofertas = Oferta::all(); // Obtiene todas las ofertas
-        return view('ofertas.index', compact('ofertas')); // Retorna la vista con los datos
+        return view('bolsa_trabajo.ofertas.index', compact('ofertas')); // Retorna la vista con los datos
     }
 
     public function create()
     {
-        return view('ofertas.create');
+        $empresas = Empresa::all(); // Obtiene todas las empresas
+        $html = view('bolsa_trabajo.ofertas.modal_create', compact('empresas'))->render(); // Retorna la vista con los datos
+
+        return response()->json(['html' => $html]);
     }
 
     public function store(Request $request)
@@ -41,9 +45,27 @@ class OfertaController extends Controller
             'dirigido' => 'required|in:Estudiante,Egresado,Bachiller,Titulado,Magister,Doctorado',
         ]);
     
-        Oferta::create($request->all()); // Crea la oferta en la BD
+        // Crear la oferta en la base de datos
+        Oferta::create([
+            'empresa_id' => $request->empresa_id,
+            'titulo_oferta' => $request->titulo_oferta,
+            'informacion_adicional' => $request->informacion_adicional,
+            'url' => $request->url,
+            'cargo' => $request->cargo,
+            'area' => $request->area,
+            'numero_vacantes' => $request->numero_vacantes,
+            'celular_contacto' => $request->celular_contacto,
+            'correo_contacto' => $request->correo_contacto,
+            'fecha_vencimiento' => $request->fecha_vencimiento,
+            'tipo_oferta' => $request->tipo_oferta,
+            'salario' => $request->salario,
+            'jornada_laboral' => $request->jornada_laboral,
+            'disponibilidad' => $request->disponibilidad,
+            'ubicacion_oferta' => $request->ubicacion_oferta,
+            'dirigido' => $request->dirigido,
+        ]); // Crea la oferta en la BD
     
-        return redirect()->route('ofertas.index')->with('success', 'Oferta creada con éxito.');
+        return response()->json(['message' => 'Oferta creada exitosamente'], 201);
     }
 
     public function show(Oferta $oferta)
