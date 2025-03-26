@@ -27,7 +27,7 @@
                     <td>{{ $empresa->empresaTipo->nombre }}</td>
                     <td>72865396 Neill Elverth Olazabal Chavez</td>
                     <td>991710428</td>
-                    <td>0</td>
+                    <td>{{ $empresa->ofertas_count }}</td>
                     <td>
                     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#empresaModal{{ $empresa->id }}">Editar</button>
                     <button class="btn btn-danger btnEliminarEmpresa" data-id="{{ $empresa->id }}">Eliminar</button>

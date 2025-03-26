@@ -15,8 +15,8 @@ class EmpresaController extends Controller
         $empresa_tipos = EmpresaTipo::all(); // Asegúrate de que este modelo existe y está importado
         $paises = Pais::all(); // Si usas países, asegúrate de que se pasa también
         $departamentos = Departamento::all(); // Lo mismo para los departamentos
-        $empresas = Empresa::with('empresaTipo')->get();
-        return view('bolsa_trabajo.empresas.index', compact('empresa_tipos', 'paises', 'departamentos','empresas'));
+        $empresas = Empresa::with('empresaTipo')->withCount('ofertas')->get();
+        return view('bolsa_trabajo.empresas.index', compact('empresa_tipos', 'paises', 'departamentos', 'empresas'));
     }
 
     public function create()
