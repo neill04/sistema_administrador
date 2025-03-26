@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('ofertas_atributos', function (Blueprint $table) {
             $table->id();
             $table->foreignId('oferta_id')->constrained('ofertas')->onDelete('cascade');
-            $table->enum('tipo', ['Idiomas', 'Funciones', 'Beneficios', 'Experiencia Laboral', 'Conocimientos', 'Competencias']);
+            $table->string('tipo');
             $table->string('valor');
             $table->timestamps();
         });
