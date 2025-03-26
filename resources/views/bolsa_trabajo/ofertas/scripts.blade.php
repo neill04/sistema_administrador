@@ -15,6 +15,11 @@ $(document).ready(function () {
         e.preventDefault();
         let formData = new FormData(this);
 
+        // ✅ Verificar los datos antes de enviarlos
+        for (let pair of formData.entries()) {
+            console.log(pair[0] + ': ' + pair[1]);
+        }
+
         $.ajax({
             url: "{{ route('ofertas.store') }}",
             method: "POST",
@@ -32,5 +37,15 @@ $(document).ready(function () {
         });
     });
 });
-
+</script>
+<script>
+    function agregarCampo(tipo) {
+        let contenedor = document.getElementById("contenedor-" + tipo);
+        let nuevoInput = document.createElement("input");
+        nuevoInput.type = "text";
+        nuevoInput.name = `atributos[${tipo}][]`;
+        nuevoInput.classList.add("form-control", "mb-2");
+        nuevoInput.placeholder = "";
+        contenedor.appendChild(nuevoInput);
+    }
 </script>

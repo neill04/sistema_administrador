@@ -9,7 +9,7 @@ class OfertaAtributo extends Model
 {
     use HasFactory;
 
-    protected $table = 'oferta_atributos';
+    protected $table = 'ofertas_atributos';
 
     protected $fillable = [
         'oferta_id',

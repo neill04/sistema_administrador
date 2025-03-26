@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Oferta;
 use App\Models\Empresa;
+use App\Models\OfertaAtributo;
 
 class OfertaController extends Controller
 {
@@ -39,14 +40,19 @@ class OfertaController extends Controller
             // ✅ Validaciones para los campos ENUM
             'tipo_oferta' => 'required|in:Contrato a plazo fijo,Contrato por hora,Prácticas profesionales,Prácticas preprofesionales,No mostrar',
             'salario' => 'required|in:A tratar,1025 - 1500,1510 - 2000,2010 - 2500,2510 - 3000,3010 - 3500',
-            'jornada_laboral' => 'required|in:Tiempo completo,Medio tiempo,Horario por Horas,No mostrar',
+            'jornada_laboral' => 'required|in:Tiempo completo,Medio tiempo,Horario por horas,No mostrar',
             'disponibilidad' => 'required|in:Inmediata,Proceso de selección,No mostrar',
             'ubicacion_oferta' => 'required|in:Trabajo en Sede principal,Trabajo en Lima,No mostrar',
             'dirigido' => 'required|in:Estudiante,Egresado,Bachiller,Titulado,Magister,Doctorado',
+
+            // Validaciones para los atributos dinámicos
+            'atributos' => 'nullable|array', // Debe ser un arreglo
+            'atributos.*.tipo' => 'nullable|string|max:255', // Debe ser una cadena de texto
+            'atributos.*.valor' => 'nullable|string|max:255', // Debe ser una cadena de texto
         ]);
     
         // Crear la oferta en la base de datos
-        Oferta::create([
+        $oferta = Oferta::create([
             'empresa_id' => $request->empresa_id,
             'titulo_oferta' => $request->titulo_oferta,
             'informacion_adicional' => $request->informacion_adicional,
@@ -64,7 +70,22 @@ class OfertaController extends Controller
             'ubicacion_oferta' => $request->ubicacion_oferta,
             'dirigido' => $request->dirigido,
         ]); // Crea la oferta en la BD
-    
+
+        // Guardar los atributos en oferta_atributos si existen
+        if ($request->has('atributos')) {
+            foreach ($request->atributos as $tipo => $valores) {
+                foreach ($valores as $valor) {
+                    if (!empty($valor)) { // Evitar guardar valores vacíos
+                        OfertaAtributo::create([
+                            'oferta_id' => $oferta->id,
+                            'tipo' => ucfirst(str_replace('-', ' ', $tipo)), // Convertir el slug a texto normal
+                            'valor' => $valor,
+                        ]);
+                    }
+                }
+            }
+        }
+
         return response()->json(['message' => 'Oferta creada exitosamente'], 201);
     }
 
