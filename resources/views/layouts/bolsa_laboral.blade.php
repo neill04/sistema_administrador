@@ -55,7 +55,7 @@
                 <div class="card bg-info text-white">
                     <div class="card-body d-flex align-items-center justify-content-between">
                         <div>
-                            <h2 class="fw-bold">49</h2>
+                            <h2 class="fw-bold">{{ $totalOfertas }}</h2>
                             <p>Ofertas</p>
                         </div>
                         <i class="bi bi-file-earmark-text h1"></i>
@@ -67,7 +67,7 @@
                 <div class="card bg-warning text-white">
                     <div class="card-body d-flex align-items-center justify-content-between">
                         <div>
-                            <h2 class="fw-bold">78</h2>
+                            <h2 class="fw-bold">{{ $totalEmpresas }}</h2>
                             <p>Empresas</p>
                         </div>
                         <i class="bi bi-briefcase h1"></i>
