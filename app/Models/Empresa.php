@@ -13,7 +13,7 @@ class Empresa extends Model
     protected $fillable = [
         'ruc', 'nombre', 'direccion', 'telefono1', 'telefono2',
         'email', 'web', 'descripcion', 'banner', 'logotipo',
-        'pais_id', 'departamento_id', 'empresa_tipo_id',
+        'estado', 'pais_id', 'departamento_id', 'empresa_tipo_id',
     ];    
 
     public function pais()

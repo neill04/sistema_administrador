@@ -2,8 +2,35 @@
 
 @section('content')
 <div class="container">
-    <h2>Gestión de Empresas</h2>
     <button id="btnCrearEmpresa" class="btn btn-success"> + Nueva Empresa</button><br><br>
+    <form method="GET" action="{{ route('empresas.index') }}">
+        <div class="row">
+            <!-- Filtro por Estado -->
+            <div class="col-md-4">
+                <label for="estado" class="form-label">Filtrar por Estado:</label>
+                <select class="form-select" name="estado" id="estado">
+                    <option value="">Todos</option>
+                    <option value="Por Validar" {{ request('estado') == 'Por Validar' ? 'selected' : '' }}>Por Validar</option>
+                    <option value="Validados" {{ request('estado') == 'Validados' ? 'selected' : '' }}>Validados</option>
+                    <option value="Rechazados" {{ request('estado') == 'Rechazados' ? 'selected' : '' }}>Rechazados</option>
+                    <option value="Suspendidos" {{ request('estado') == 'Suspendidos' ? 'selected' : '' }}>Suspendidos</option>
+                </select>
+            </div>
+
+            <!-- Buscar por Empresa -->
+            <div class="col-md-6">
+                <label for="empresa" class="form-label">Buscar por Empresa:</label>
+                <input type="text" class="form-control" name="empresa" id="empresa" 
+                    placeholder="Buscar por RUC o razón social" value="{{ request('empresa') }}">
+            </div>
+
+            <!-- Botón de búsqueda -->
+            <div class="col-md-2 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary">Buscar</button>
+            </div>
+        </div>
+    </form>
+    <br>
     <div class="table-responsive">
         <table class="table table-striped table-bordered">
             <thead class="thead-dark">
@@ -21,7 +48,7 @@
             <tbody>
                 @foreach($empresas as $empresa)
                 <tr>
-                    <td>{{ $empresa->id }}</td>
+                    <td>{{ $loop->iteration }}</td>
                     <td>{{ $empresa->ruc }}</td>
                     <td>{{ $empresa->nombre }}</td>
                     <td>{{ $empresa->empresaTipo->nombre }}</td>
