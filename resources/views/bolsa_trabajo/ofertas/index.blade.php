@@ -2,7 +2,6 @@
 
 @section('content')
 <div class="container">
-    <h2>Gestión de Ofertas</h2>
     <button id="btnCrearOferta" class="btn btn-success"> + Nueva Oferta</button>
 
     <table class="table mt-3">

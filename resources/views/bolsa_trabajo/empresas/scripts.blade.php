@@ -1,5 +1,3 @@
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
 <script>
     // Script para cargar el mensaje de éxito luego de editar una empresa
     document.addEventListener("DOMContentLoaded", function() {
