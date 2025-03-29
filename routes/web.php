@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 // Ruta para el manejo de la bolsa laboral
 Route::get('/bolsa_laboral', function () {
-    return view('bolsa_trabajo.index'); 
+    return redirect()->route('empresas.index');
 })->name('bolsa_laboral');
 
 // Ruta inicial de la página web
