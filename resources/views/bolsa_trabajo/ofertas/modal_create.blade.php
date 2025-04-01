@@ -133,6 +133,22 @@
                     </div>
 
                     <div class="mb-3">
+                        <label for="carrera" class="form-label">Carrera *</label>
+                        <select class="form-control" name="carrera" id="carrera" required>
+                            <option value="">Seleccione una opción</option>
+                            <option value="Desarrollo de Sistemas de Información">Desarrollo de Sistemas de Información</option>
+                            <option value="Construcción Civil">Construcción Civil</option>
+                            <option value="Contabilidad">Contabilidad</option>
+                            <option value="Electricidad Industrial">Electricidad Industrial</option>
+                            <option value="Electrónica Industrial">Electrónica Industrial</option>
+                            <option value="Mecatrónica Automotriz">Mecatrónica Automotriz</option>
+                            <option value="Mecánica de Producción Industrial">Mecánica de Producción Industrial</option>
+                            <option value="Producción Agropecuaria">Producción Agropecuaria</option>
+                            <option value="Secretariado Ejecutivo">Secretariado Ejecutivo</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
                     @foreach (['Idiomas', 'Experiencia Laboral', 'Funciones', 'Conocimientos', 'Beneficios', 'Competencias'] as $tipo)
                         <div class="mb-3">
                             <label>{{ $tipo }}</label>

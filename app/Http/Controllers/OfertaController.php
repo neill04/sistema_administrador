@@ -9,10 +9,37 @@ use App\Models\OfertaAtributo;
 
 class OfertaController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $ofertas = Oferta::all(); // Obtiene todas las ofertas
-        return view('bolsa_trabajo.ofertas.index', compact('ofertas')); // Retorna la vista con los datos
+        $query = Oferta::query();
+
+        // Filtrar por carrera si se ha seleccionado una
+        if ($request->filled('carrera')) {
+            $query->where('carrera', $request->carrera);
+        }
+
+        // Filtrar por fecha de inicio si se ha seleccionado
+        if ($request->filled('fecha_inicio')) {
+            $query->whereDate('created_at', '>=', $request->fecha_inicio);
+        }
+
+        // Filtrar por fecha de fin si se ha seleccionado
+        if ($request->filled('fecha_fin')) {
+            $query->whereDate('created_at', '<=', $request->fecha_fin);
+        }
+
+        // Obtener la cantidad de registros a mostrar, por defecto 10
+        $cantidad = $request->input('cantidad',10);
+
+        // Obtener los resultados paginados
+        $ofertas = $query->paginate($cantidad);
+
+        // Si la petición es AJAX, retornar solo la tabla de ofertas
+        if ($request->ajax()) {
+            return view('bolsa_trabajo.ofertas._tabla', compact('ofertas'))->render();
+        }
+
+        return view('bolsa_trabajo.ofertas.index', compact('ofertas'));
     }
 
     public function create()
@@ -44,6 +71,7 @@ class OfertaController extends Controller
             'disponibilidad' => 'required|in:Inmediata,Proceso de selección,No mostrar',
             'ubicacion_oferta' => 'required|in:Trabajo en Sede principal,Trabajo en Lima,No mostrar',
             'dirigido' => 'required|in:Estudiante,Egresado,Bachiller,Titulado,Magister,Doctorado',
+            'carrera' => 'required|in:Desarrollo de Sistemas de Información,Construcción Civil,Contabilidad,Electricidad Industrial,Electrónica Industrial,Mecatrónica Automotriz,Mecánica de Producción Industrial,Producción Agropecuaria,Secretariado Ejecutivo',
 
             // Validaciones para los atributos dinámicos
             'atributos' => 'nullable|array', // Debe ser un arreglo
@@ -69,6 +97,7 @@ class OfertaController extends Controller
             'disponibilidad' => $request->disponibilidad,
             'ubicacion_oferta' => $request->ubicacion_oferta,
             'dirigido' => $request->dirigido,
+            'carrera' => $request->carrera,
         ]); // Crea la oferta en la BD
 
         // Guardar los atributos en oferta_atributos si existen

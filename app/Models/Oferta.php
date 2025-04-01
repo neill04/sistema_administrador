@@ -28,6 +28,7 @@ class Oferta extends Model
         'disponibilidad',
         'ubicacion_oferta',
         'dirigido',
+        'carrera',
     ];
 
     public function empresa()
