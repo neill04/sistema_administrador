@@ -7,6 +7,8 @@
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -26,7 +28,7 @@
         }
     </style>
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
     <!-- Barra de navegación -->
     @include('layouts.navbar')
 
@@ -35,8 +37,14 @@
         @yield('content_bolsa_laboral')
     </div>
 
+    @yield('content_inicio')
+
     <!-- Bootstrap JS (Popper + Bootstrap) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <footer class="bg-dark text-center text-white py-3 mt-auto">
+        PPD - INTRANET
+    </footer>
 
 </body>
 </html>

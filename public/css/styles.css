@@ -18,6 +18,11 @@ option[disabled] {
     border-radius: 5px;
 }
 
+.alert-danger {
+    background-color: #f87e7e !important; /* Rojo oscuro */
+    border-color: #000000; /* Borde más oscuro */
+}
+
 .modal-content {
     background-color: #f8f9fa; /* Fondo más claro */
 }
@@ -133,5 +138,117 @@ th {
     border: 2px solid black;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
 }
+
+
+.custom-card {
+    display: flex;
+    height: 125px; /* Ajusta la altura según necesites */
+    width: 400px; /* Ajusta el tamaño según necesites */
+    border-radius: 10px;
+    overflow: hidden;
+    background: white;
+}
+
+.icon-section-desarrollo {
+    height: 125px; /* Ajusta la altura según necesites */
+    width: 170px; 
+    background: #2b1dc7; /* Color del fondo */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon-section-contabilidad {
+    height: 125px; /* Ajusta la altura según necesites */
+    width: 150px; 
+    background: #81dfff; /* Color del fondo */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon-section-construccion {
+    height: 125px; /* Ajusta la altura según necesites */
+    width: 150px; 
+    background: #ff7b00; /* Color del fondo */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon-section-electricidad {
+    height: 125px; /* Ajusta la altura según necesites */
+    width: 142px; 
+    background: #e9ff3f; /* Color del fondo */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon-section-electronica {
+    height: 125px; /* Ajusta la altura según necesites */
+    width: 150px; 
+    background: #da2626; /* Color del fondo */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon-section-mecatronica {
+    height: 125px; /* Ajusta la altura según necesites */
+    width: 150px; 
+    background: #52489d; /* Color del fondo */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon-section-mecanica {
+    height: 125px; /* Ajusta la altura según necesites */
+    width: 150px; 
+    background: #d5d5d5; /* Color del fondo */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon-section-produccion {
+    height: 125px; /* Ajusta la altura según necesites */
+    width: 150px; 
+    background: #30c81c; /* Color del fondo */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon-section-secretariado {
+    height: 125px; /* Ajusta la altura según necesites */
+    width: 150px; 
+    background: #ef60ff; /* Color del fondo */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon-section i {
+    font-size: 30px;
+    color: white;
+}
+
+.text-section {
+    padding: 15px;
+}
+
+.count {
+    font-size: 25px;
+    color: #000000; /* Color gris claro */
+    margin-bottom: 5px;
+}
+
+.title {
+    font-size: 12px;
+    color: #000000;
+}
+
 
 

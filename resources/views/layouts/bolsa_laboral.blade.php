@@ -5,8 +5,12 @@
 <div class="container mt-4">
     <div class="row">
         <div class="col-12">
-            <div class="alert alert-danger text-white" role="alert">
-                <strong>ACTIVIDAD RECIENTE</strong>
+            <div class="alert alert-danger text-white d-flex justify-content-between" role="alert">
+                <div>
+                    <i class="bi bi-bar-chart-fill"></i>
+                    <strong>ACTIVIDAD RECIENTE</strong>
+                </div>
+                <span id="fecha-actual"></span>
             </div>
         </div>
 
@@ -15,7 +19,7 @@
                 <div class="card-body d-flex align-items-center justify-content-between">
                     <div>
                         <h2 class="fw-bold">{{ $totalOfertas }}</h2>
-                        <p>Ofertas</p>
+                        <p>OFERTAS</p>
                     </div>
                     <i class="bi bi-file-earmark-text h1"></i>
                 </div>
@@ -27,7 +31,7 @@
                 <div class="card-body d-flex align-items-center justify-content-between">
                     <div>
                         <h2 class="fw-bold">{{ $totalEmpresas }}</h2>
-                        <p>Empresas</p>
+                        <p>EMPRESAS</p>
                     </div>
                     <i class="bi bi-briefcase h1"></i>
                 </div>
@@ -39,7 +43,7 @@
                 <div class="card-body d-flex align-items-center justify-content-between">
                     <div>
                         <h2 class="fw-bold">0</h2>
-                        <p>Contratados</p>
+                        <p>CONTRATADOS</p>
                     </div>
                     <i class="bi bi-person-check h1"></i>
                 </div>
@@ -51,7 +55,7 @@
                 <div class="card-body d-flex align-items-center justify-content-between">
                     <div>
                         <h2 class="fw-bold">0</h2>
-                        <p>Postulaciones</p>
+                        <p>POSTULACIONES</p>
                     </div>
                     <i class="bi bi-people h1"></i>
                 </div>
@@ -86,4 +90,12 @@
     @yield('content')
     </div>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const opciones = { day: "numeric", month: "long", year: "numeric" };
+        const fecha = new Date().toLocaleDateString("en-US", opciones);
+        document.getElementById("fecha-actual").textContent = fecha;
+    });
+</script>
 @endsection
