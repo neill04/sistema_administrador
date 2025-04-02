@@ -4,6 +4,15 @@ body {
     background-color: #f8f9fa;
 }
 
+/* Estilos de la barra de navegación */
+.navbar-brand {
+    font-weight: bold;
+    color: #dc3545 !important; /* Color rojo similar a Laravel */
+}
+.dropdown-menu {
+    min-width: 200px;
+}
+
 /* Opciones deshabilitadas en los selects */
 option[disabled] {
     color: #999 !important;

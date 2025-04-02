@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\DashboardController;
 
 // Ruta para el manejo de la bolsa laboral
 Route::get('/bolsa_laboral', function () {
@@ -8,9 +10,20 @@ Route::get('/bolsa_laboral', function () {
 })->name('bolsa_laboral');
 
 // Ruta inicial de la página web
+
 Route::get('/', function () {
     return view('inicio');
 })->name('inicio');
+
+
+Route::get('/login', function () {
+    return view('auth.login');
+})->name('login');
+
+
+Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard')->middleware('auth');
+Route::get('/professor/dashboard', [DashboardController::class, 'index'])->name('professor.dashboard')->middleware('auth');
+Route::get('/student/dashboard', [DashboardController::class, 'index'])->name('student.dashboard')->middleware('auth');
 
 
 use App\Http\Controllers\EmpresaController;
@@ -36,7 +49,6 @@ Route::resource('ofertas', OfertaController::class); // Crea las rutas CRUD para
 Route::resource('ofertas.atributos', OfertaAtributoController::class)->shallow(); 
 
 
+Auth::routes();
 
-
-
-
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
