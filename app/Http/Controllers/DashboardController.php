@@ -17,7 +17,7 @@ class DashboardController extends Controller
         } elseif (Auth::user()->role == 'profesor') {
             return redirect()->route('empresas.index');  // Vista para el profesor
         } elseif (Auth::user()->role == 'estudiante') {
-            return redirect()->route('empresas.index');  // Vista para el estudiante
+            return redirect()->route('ofertas.index');  // Vista para el estudiante
         }
 
         // Si no se encuentra el rol, redirige a una página de error o inicio

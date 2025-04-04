@@ -16,8 +16,22 @@
                 <li class="nav-item1">
                     <a class="nav-link text-light" href="{{ route('inicio') }}">Inicio</a>
                 </li>
-                <li class="nav-item1">
-                    <a class="nav-link text-light" href="{{ route('bolsa_laboral') }}">Bolsa Laboral</a>
+                <li class="nav-item1 dropdown">
+                    <a class="nav-link text-light dropdown-toggle" href="#" id="bolsaDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Bolsa Laboral
+                    </a>
+                    <ul class="dropdown-menu bg-black border-0" aria-labelledby="bolsaDropdown">
+                        <li>
+                            @if(auth()->user()->role == 'estudiante')
+                            <a class="dropdown-item text-light" href="{{ route('mi.cv') }}">Mi CV</a>
+                            @elseif(auth()->user()->role == 'admin' || auth()->user()->role == 'profesor')
+                            <a class="dropdown-item text-light" href="{{ route('alumnos.cvs') }}">Alumnos CV</a>
+                            @endif
+                        </li>
+                        <li>
+                            <a class="dropdown-item text-light" href="{{ route('ofertas.index') }}">Ofertas de Trabajo</a>
+                        </li>
+                    </ul>
                 </li>
             </ul>
         </div>

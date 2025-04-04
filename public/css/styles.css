@@ -11,6 +11,12 @@ body {
 }
 .dropdown-menu {
     min-width: 200px;
+    position: absolute;
+    z-index: 1000;
+}
+
+.nav-item1 {
+    position: relative;
 }
 
 /* Opciones deshabilitadas en los selects */

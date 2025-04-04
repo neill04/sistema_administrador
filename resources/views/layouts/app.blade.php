@@ -33,6 +33,9 @@
         </div>
         <br><br>
         @yield('content_inicio')
+
+        @yield('content_mi_cv')
+        @yield('content_cvs')
     @endauth
     
     @guest
