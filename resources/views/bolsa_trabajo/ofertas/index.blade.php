@@ -2,7 +2,9 @@
 
 @section('content')
 <div class="container">
+    @if(auth()->user()->role == 'admin')
     <button id="btnCrearOferta" class="btn btn-success"> + Nueva Oferta</button><br><br>
+    @endif
     <form id="form-filtros" method="GET" action="{{ route('ofertas.index') }}">
         <div class="row">
             <div class="col-md-3">
@@ -51,6 +53,11 @@
         </div>
     </div>
     <br>
+    @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
     <div class="table-responsive" id="tabla-ofertas">
         <table class="table table-striped table-bordered">
             <thead class="thead-dark">
@@ -67,11 +74,26 @@
                 <tr>
                     <td>{{ $oferta->titulo_oferta }}</td>
                     <td>{{ $oferta->empresa->nombre }}</td>
-                    <td>0</td>
+                    <td>{{ $oferta->postulantes_count }}</td>
                     <td>{{ $oferta->created_at->format('Y-m-d') }}</td>
                     <td>
-                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#">Editar</button>
-                    <button class="btn btn-danger btnEliminarEmpresa">Eliminar</button>
+                    @if(auth()->user()->role == 'admin')
+                    <a href="#" class="btn btn-primary btn-sm" title="Editar">
+                        <i class="bi bi-pencil"></i>
+                    </a>
+                    <form action="{{ route('ofertas.destroy', $oferta->id) }}" method="POST" style="display:inline-block;">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger btn-sm" title="Inactivar Oferta" onclick="return confirm('¿Estás seguro?')">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </form>
+                    @elseif(auth()->user()->role == 'estudiante')
+                    <form action="{{ route('postulaciones.store', $oferta->id) }}" method="POST">
+                        @csrf
+                        <button type="submit" class="btn btn-secondary">Postularme</button>
+                    </form>
+                    @endif
                     </td>
                 </tr>
                 @endforeach
@@ -82,7 +104,6 @@
     <div class="d-flex justify-content-center">
         {{ $ofertas->appends(request()->query())->links('pagination::bootstrap-4') }}
     </div>
- 
 </div>
 
 <!-- Contenedor donde se insertarán los modales -->

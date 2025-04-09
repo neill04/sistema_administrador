@@ -2,11 +2,11 @@
     <div class="container">
         <a class="navbar-brand fw-bold text-white fs-4" href="#">
             @if(auth()->check() && auth()->user()->role == 'admin')
-                Admin
+                ADMIN
             @elseif(auth()->check() && auth()->user()->role == 'profesor')
-                Profesor
+                EMPRESA
             @elseif(auth()->check() && auth()->user()->role == 'estudiante')
-                Estudiante
+                ESTUDIANTE
             @else
                 Usuario
             @endif
@@ -24,12 +24,11 @@
                         <li>
                             @if(auth()->user()->role == 'estudiante')
                             <a class="dropdown-item text-light" href="{{ route('mi.cv') }}">Mi CV</a>
-                            @elseif(auth()->user()->role == 'admin' || auth()->user()->role == 'profesor')
-                            <a class="dropdown-item text-light" href="{{ route('alumnos.cvs') }}">Alumnos CV</a>
-                            @endif
-                        </li>
-                        <li>
                             <a class="dropdown-item text-light" href="{{ route('ofertas.index') }}">Ofertas de Trabajo</a>
+                            @elseif(auth()->user()->role == 'admin')
+                            <a class="dropdown-item text-light" href="{{ route('alumnos.cvs') }}">Alumnos CV</a>
+                            <a class="dropdown-item text-light" href="{{ route('ofertas.index') }}">Gestión Trabajo</a>
+                            @endif
                         </li>
                     </ul>
                 </li>
