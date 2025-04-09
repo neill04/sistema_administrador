@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class User extends Authenticatable
 {
@@ -52,5 +53,12 @@ class User extends Authenticatable
     public function cvs()
     {
         return $this->hasMany(Cv::class);
+    }
+
+    public function postulaciones(): BelongsToMany
+    {
+        return $this->belongsToMany(Oferta::class, 'postulaciones', 'user_id', 'oferta_id')
+                    ->using(Postulacion::class)
+                    ->withTimestamps();
     }
 }

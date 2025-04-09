@@ -32,7 +32,7 @@ class OfertaController extends Controller
         $cantidad = $request->input('cantidad',10);
 
         // Obtener los resultados paginados
-        $ofertas = $query->paginate($cantidad);
+        $ofertas = $query->withCount('postulantes')->paginate($cantidad);
 
         // Si la petición es AJAX, retornar solo la tabla de ofertas
         if ($request->ajax()) {

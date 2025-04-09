@@ -9,6 +9,7 @@ use App\Http\Controllers\EmpresaController;
 
 use App\Http\Controllers\OfertaController;
 use App\Http\Controllers\OfertaAtributoController;
+use App\Http\Controllers\PostulacionController;
 
 
 // Ruta para el manejo de la bolsa laboral
@@ -55,6 +56,15 @@ Route::middleware(['auth', 'can:manage,App\Models\Empresa'])->group(function () 
 Route::middleware(['auth'])->group(function () {
     Route::resource('ofertas', OfertaController::class);  
 });
+
+Route::middleware(['auth', 'can:view_create,App\Models\Oferta'])->group(function () {
+    Route::get('/ofertas/create', [OfertaController::class, 'create'])->name('ofertas.create');
+});
+
+Route::middleware(['auth', 'can:postular,App\Models\User'])->group(function () {
+    Route::post('/postulaciones/{oferta}', [PostulacionController::class, 'store'])->name('postulaciones.store');
+});
+
 
 Route::resource('ofertas.atributos', OfertaAtributoController::class)->shallow(); 
 

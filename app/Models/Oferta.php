@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Oferta extends Model
 {
@@ -39,5 +40,11 @@ class Oferta extends Model
     public function atributos()
     {
         return $this->hasMany(OfertaAtributo::class);
+    }
+
+    public function postulantes(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'postulaciones', 'oferta_id', 'user_id')
+                    ->withTimestamps();
     }
 }
