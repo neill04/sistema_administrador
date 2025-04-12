@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Oferta;
 use App\Models\Empresa;
 use App\Models\OfertaAtributo;
+
 
 class OfertaController extends Controller
 {
@@ -31,12 +33,10 @@ class OfertaController extends Controller
         // Obtener la cantidad de registros a mostrar, por defecto 10
         $cantidad = $request->input('cantidad',10);
 
-        // Obtener los resultados paginados
-        $ofertas = $query->withCount('postulantes')->paginate($cantidad);
-
-        // Si la petición es AJAX, retornar solo la tabla de ofertas
-        if ($request->ajax()) {
-            return view('bolsa_trabajo.ofertas._tabla', compact('ofertas'))->render();
+        if(Auth::user()->role == 'admin') {
+            $ofertas = $query->with(['postulantes.cvs'])->withCount('postulantes')->paginate($cantidad);
+        } else {
+            $ofertas = $query->withCount('postulantes')->paginate($cantidad);  
         }
 
         return view('bolsa_trabajo.ofertas.index', compact('ofertas'));
