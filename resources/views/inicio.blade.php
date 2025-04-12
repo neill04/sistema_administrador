@@ -7,7 +7,7 @@
             <i class="bi bi-laptop fs-1"></i>
         </div>
         <div class="text-section text-center flex-grow-1">
-            <h2 class="count">129</h2>
+            <h2 class="count">{{ $Desarrollo }}</h2>
             <p class="title">DESARROLLO DE SISTEMAS DE INFORMACIÓN</p>
         </div>
     </div>
@@ -17,7 +17,7 @@
             <i class="bi bi-calculator fs-1"></i>
         </div>
         <div class="text-section text-center flex-grow-1">
-            <h2 class="count">129</h2>
+            <h2 class="count">{{ $Contabilidad }}</h2>
             <p class="title">CONTABILIDAD</p>
         </div>
     </div>
@@ -27,7 +27,7 @@
             <i class="bi bi-hammer fs-1"></i> 
         </div>
         <div class="text-section text-center flex-grow-1">
-            <h2 class="count">129</h2>
+            <h2 class="count">{{ $Construccion }}</h2>
             <p class="title">CONSTRUCCIÓN CIVIL</p>
         </div>
     </div>
@@ -37,7 +37,7 @@
             <i class="bi bi-lightning-fill fs-1"></i> 
         </div>
         <div class="text-section text-center flex-grow-1">
-            <h2 class="count">129</h2>
+            <h2 class="count">{{ $Electricidad }}</h2>
             <p class="title">ELECTRICIDAD INDUSTRIAL</p>
         </div>
     </div>
@@ -47,7 +47,7 @@
             <i class="bi bi-cpu fs-1"></i> 
         </div>
         <div class="text-section text-center flex-grow-1">
-            <h2 class="count">129</h2>
+            <h2 class="count">{{ $Electronica }}</h2>
             <p class="title">ELECTRÓNICA INDUSTRIAL</p>
         </div>
     </div>
@@ -57,7 +57,7 @@
             <i class="bi bi-tools fs-1"></i> 
         </div>
         <div class="text-section text-center flex-grow-1">
-            <h2 class="count">129</h2>
+            <h2 class="count">{{ $Mecatronica }}</h2>
             <p class="title">MECATRÓNICA AUTOMOTRIZ</p>
         </div>
     </div>
@@ -67,7 +67,7 @@
             <i class="bi bi-gear fs-1"></i> 
         </div>
         <div class="text-section text-center flex-grow-1">
-            <h2 class="count">129</h2>
+            <h2 class="count">{{ $Mecanica }}</h2>
             <p class="title">MECÁNICA DE PRODUCCIÓN INDUSTRIAL</p>
         </div>
     </div>
@@ -77,7 +77,7 @@
             <i class="bi bi-flower1 fs-1"></i> 
         </div>
         <div class="text-section text-center flex-grow-1">
-            <h2 class="count">129</h2>
+            <h2 class="count">{{ $Produccion }}</h2>
             <p class="title">PRODUCCIÓN AGROPECUARIA</p>
         </div>
     </div>
@@ -87,7 +87,7 @@
             <i class="bi bi-file-earmark-text fs-1"></i> 
         </div>
         <div class="text-section text-center flex-grow-1">
-            <h2 class="count">129</h2>
+            <h2 class="count">{{ $Secretariado }}</h2>
             <p class="title">SECRETARIADO EJECUTIVO</p>
         </div>
     </div>
