@@ -62,6 +62,7 @@
         <table class="table table-striped table-bordered">
             <thead class="thead-dark">
                 <tr>
+                    <th>Nro</th>
                     <th>Título</th>
                     <th>Empresa</th>
                     <th>Postulaciones</th>
@@ -70,17 +71,18 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($ofertas as $oferta)
+                @foreach($ofertas as $index => $oferta)
                 <tr>
+                    <td>{{ $ofertas->firstItem() + $index }}</td>
                     <td>{{ $oferta->titulo_oferta }}</td>
                     <td>{{ $oferta->empresa->nombre }}</td>
                     <td>{{ $oferta->postulantes_count }}</td>
                     <td>{{ $oferta->created_at->format('Y-m-d') }}</td>
                     <td>
                     @if(auth()->user()->role == 'admin')
-                    <a href="#" class="btn btn-primary btn-sm" title="Editar">
+                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editarOfertaModal-{{ $oferta->id }}" title="Editar">
                         <i class="bi bi-pencil"></i>
-                    </a>
+                    </button>
                     <form action="{{ route('ofertas.destroy', $oferta->id) }}" method="POST" style="display:inline-block;">
                         @csrf
                         @method('DELETE')
@@ -88,11 +90,16 @@
                             <i class="bi bi-trash"></i>
                         </button>
                     </form>
+                    <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#modalPostulantes{{ $oferta->id }}">
+                        <i class="bi bi-people-fill"></i>Ver postulantes
+                    </button>
                     @elseif(auth()->user()->role == 'estudiante')
-                    <form action="{{ route('postulaciones.store', $oferta->id) }}" method="POST">
+                        <form action="{{ route('postulaciones.store', $oferta->id) }}" method="POST">
                         @csrf
-                        <button type="submit" class="btn btn-secondary">Postularme</button>
-                    </form>
+                            <button type="submit" class="btn btn-success">
+                                <i class="bi bi-file-earmark-arrow-up"></i> Postularme
+                            </button>
+                        </form>
                     @endif
                     </td>
                 </tr>
@@ -107,7 +114,10 @@
 </div>
 
 <!-- Contenedor donde se insertarán los modales -->
-<div id="modalContainer"></div>
+<div id="modalContainer">
+    @include('bolsa_trabajo.ofertas.modal_postulantes')
+    @include('bolsa_trabajo.ofertas.modal_edit', ['oferta' => $oferta])
+</div>
 
 <!-- Incluir scripts -->
 @include('bolsa_trabajo.ofertas.scripts')

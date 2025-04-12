@@ -56,8 +56,12 @@
                     <td>991710428</td>
                     <td>{{ $empresa->ofertas_count }}</td>
                     <td>
-                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#empresaModal{{ $empresa->id }}">Editar</button>
-                    <button class="btn btn-danger btnEliminarEmpresa" data-id="{{ $empresa->id }}">Eliminar</button>
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#empresaModal{{ $empresa->id }}" title="Editar">
+                        <i class="bi bi-pencil"></i>
+                    </button>
+                    <button class="btn btn-danger btnEliminarEmpresa" data-id="{{ $empresa->id }}" title="Inactivar empresa">
+                        <i class="bi bi-trash"></i>
+                    </button>
                     </td>
                 </tr>
                 @endforeach
