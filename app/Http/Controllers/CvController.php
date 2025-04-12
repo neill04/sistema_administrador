@@ -19,10 +19,29 @@ class CvController extends Controller
         return view('bolsa_trabajo.mi_cv', compact('cv'));
     }
 
-    public function Cvs()
+    public function Cvs(Request $request)
     {
-        $cvs = User::where('role', 'estudiante')->has('cvs')->with('cvs')->get(); // Obtiene todos los alumnos que tienen su CV
-        return view('bolsa_trabajo._cvs', compact('cvs'));
+        $carreras = [
+            'Desarrollo de Sistemas de Información',
+            'Construcción Civil',
+            'Contabilidad',
+            'Electricidad Industrial',
+            'Electrónica Industrial',
+            'Mecatrónica Automotriz',
+            'Mecánica de Producción Industrial',
+            'Producción Agropecuaria',
+            'Secretariado Ejecutivo'
+        ];
+
+        $query = User::where('role', 'estudiante')->has('cvs')->with('cvs'); // Obtiene todos los alumnos que tienen su CV
+        
+        if ($request->filled('carrera')) {
+            $query->where('carrera', $request->carrera);
+        }
+    
+        $cvs = $query->get();
+        
+        return view('bolsa_trabajo._cvs', compact('cvs', 'carreras'));
     }
 
     /**
