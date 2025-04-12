@@ -54,7 +54,7 @@
             <div class="card bg-danger text-white">
                 <div class="card-body d-flex align-items-center justify-content-between">
                     <div>
-                        <h2 class="fw-bold">0</h2>
+                        <h2 class="fw-bold">{{ $totalPostulaciones }}</h2>
                         <p>POSTULACIONES</p>
                     </div>
                     <i class="bi bi-people h1"></i>

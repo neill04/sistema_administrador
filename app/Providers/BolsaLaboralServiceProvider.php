@@ -7,6 +7,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
 use App\Models\Empresa;
 use App\Models\Oferta;
+use App\Models\Postulacion;
 
 class BolsaLaboralServiceProvider extends ServiceProvider
 {
@@ -21,7 +22,7 @@ class BolsaLaboralServiceProvider extends ServiceProvider
             $view->with([
                 'totalEmpresas' => Empresa::count(),
                 'totalOfertas' => Oferta::count(),
-                // Agrega otros contadores si es necesario
+                'totalPostulaciones' => Postulacion::count(),
             ]);
         });
     }
