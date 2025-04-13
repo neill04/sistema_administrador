@@ -72,7 +72,7 @@ $(document).ready(function () {
                 headers: { "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content") },
                 success: function (response) {
                     alert("Empresa eliminada correctamente");
-                    location.reload();
+                    $("#empresa-" + empresaId).remove();
                 },
                 error: function (xhr) {
                     alert("Error al eliminar empresa");

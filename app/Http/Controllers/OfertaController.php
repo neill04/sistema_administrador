@@ -14,6 +14,7 @@ class OfertaController extends Controller
     public function index(Request $request)
     {
         $query = Oferta::query();
+        $query = Oferta::orderBy('created_at', 'desc');
 
         // Filtrar por carrera si se ha seleccionado una
         if ($request->filled('carrera')) {
@@ -39,7 +40,15 @@ class OfertaController extends Controller
             $ofertas = $query->withCount('postulantes')->paginate($cantidad);  
         }
 
-        return view('bolsa_trabajo.ofertas.index', compact('ofertas'));
+        $empresas = Empresa::all();
+
+        foreach ($ofertas as $oferta) {
+            $oferta->atributosAgrupados = $oferta->atributos->groupBy('tipo');
+        }
+
+        $tiposAtributo = ['Idiomas', 'Experiencia Laboral', 'Funciones', 'Conocimientos', 'Beneficios', 'Competencias'];
+        
+        return view('bolsa_trabajo.ofertas.index', compact('ofertas', 'empresas', 'tiposAtributo'));
     }
 
     public function create()
@@ -125,11 +134,14 @@ class OfertaController extends Controller
 
     public function edit(Oferta $oferta)
     {
-        return view('ofertas.edit', compact('oferta'));
+        return view('bolsa_trabajo.ofertas.modal_edit', compact('oferta'));
     }
 
-    public function update(Request $request, Oferta $oferta)
+    public function update(Request $request, $id)
     {
+        $oferta = Oferta::findOrFail($id); // Encuentra la oferta por ID
+        
+        // Validar los datos
         $request->validate([
             'empresa_id' => 'required|exists:empresas,id', // Debe existir en la tabla empresas
             'titulo_oferta' => 'required|string|max:255',
@@ -145,21 +157,43 @@ class OfertaController extends Controller
             // ✅ Validaciones para los campos ENUM
             'tipo_oferta' => 'required|in:Contrato a plazo fijo,Contrato por hora,Prácticas profesionales,Prácticas preprofesionales,No mostrar',
             'salario' => 'required|in:A tratar,1025 - 1500,1510 - 2000,2010 - 2500,2510 - 3000,3010 - 3500',
-            'jornada_laboral' => 'required|in:Tiempo completo,Medio tiempo,Horario por Horas,No mostrar',
+            'jornada_laboral' => 'required|in:Tiempo completo,Medio tiempo,Horario por horas,No mostrar',
             'disponibilidad' => 'required|in:Inmediata,Proceso de selección,No mostrar',
             'ubicacion_oferta' => 'required|in:Trabajo en Sede principal,Trabajo en Lima,No mostrar',
             'dirigido' => 'required|in:Estudiante,Egresado,Bachiller,Titulado,Magister,Doctorado',
+            'carrera' => 'required|in:Desarrollo de Sistemas de Información,Construcción Civil,Contabilidad,Electricidad Industrial,Electrónica Industrial,Mecatrónica Automotriz,Mecánica de Producción Industrial,Producción Agropecuaria,Secretariado Ejecutivo',
+
+            // Validaciones para los atributos dinámicos
+            'atributos' => 'nullable|array', // Debe ser un arreglo
+            'atributos.*.tipo' => 'nullable|string|max:255', // Debe ser una cadena de texto
+            'atributos.*.valor' => 'nullable|string|max:255', // Debe ser una cadena de texto
         ]);
+
+        $oferta->atributos()->delete(); // Elimina los atributos existentes
+
+        if ($request->has('atributos')) {
+            foreach ($request->input('atributos') as $tipo => $valores) {
+                foreach ($valores as $valor) {
+                    if (!empty($valor)) {
+                        $oferta->atributos()->create([
+                            'tipo' => $tipo,
+                            'valor' => $valor,
+                        ]);
+                    }
+                }
+            }
+        }
     
         $oferta->update($request->all()); // Actualiza la oferta
+        $oferta->save();
     
         return redirect()->route('ofertas.index')->with('success', 'Oferta actualizada.');
     }
 
     public function destroy(Oferta $oferta)
     {
-        $oferta->delete(); // Elimina la oferta
+        $oferta->delete(); 
 
-        return redirect()->route('ofertas.index')->with('success', 'Oferta eliminada.');
+        return response()->json(['message' => 'Oferta eliminada exitosamente']);
     }
 }

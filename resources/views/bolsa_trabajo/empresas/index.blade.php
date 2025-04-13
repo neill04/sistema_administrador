@@ -47,7 +47,7 @@
             </thead>
             <tbody>
                 @foreach($empresas as $empresa)
-                <tr>
+                <tr id="empresa-{{ $empresa->id }}">
                     <td>{{ $loop->iteration }}</td>
                     <td>{{ $empresa->ruc }}</td>
                     <td>{{ $empresa->nombre }}</td>

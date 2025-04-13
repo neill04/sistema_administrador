@@ -59,10 +59,14 @@ Route::middleware(['auth'])->group(function () {
 
 Route::middleware(['auth', 'can:view_create,App\Models\Oferta'])->group(function () {
     Route::get('/ofertas/create', [OfertaController::class, 'create'])->name('ofertas.create');
+    Route::get('/ofertas/{oferta}/edit', [OfertaController::class, 'edit'])->name('ofertas.edit');
+    Route::put('/ofertas/{oferta}', [OfertaController::class, 'update'])->name('ofertas.update');
+    Route::delete('/ofertas/{oferta}', [OfertaController::class, 'destroy'])->name('ofertas.destroy');
 });
 
 Route::middleware(['auth', 'can:postular,App\Models\User'])->group(function () {
     Route::post('/postulaciones/{oferta}', [PostulacionController::class, 'store'])->name('postulaciones.store');
+    Route::delete('/cancelar-postulacion/{oferta}', [PostulacionController::class, 'cancelarPostulacion'])->name('cancelarPostulacion');
 });
 
 

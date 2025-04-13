@@ -72,7 +72,7 @@
             </thead>
             <tbody>
                 @foreach($ofertas as $index => $oferta)
-                <tr>
+                <tr id="oferta-{{ $oferta->id }}">
                     <td>{{ $ofertas->firstItem() + $index }}</td>
                     <td>{{ $oferta->titulo_oferta }}</td>
                     <td>{{ $oferta->empresa->nombre }}</td>
@@ -83,13 +83,9 @@
                     <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editarOfertaModal-{{ $oferta->id }}" title="Editar">
                         <i class="bi bi-pencil"></i>
                     </button>
-                    <form action="{{ route('ofertas.destroy', $oferta->id) }}" method="POST" style="display:inline-block;">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger btn-sm" title="Inactivar Oferta" onclick="return confirm('¿Estás seguro?')">
-                            <i class="bi bi-trash"></i>
-                        </button>
-                    </form>
+                    <button type="submit" class="btn btn-danger btn-sm btnEliminarOferta" title="Inactivar Oferta" data-id="{{ $oferta->id }}">
+                        <i class="bi bi-trash"></i>
+                    </button>
                     <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#modalPostulantes{{ $oferta->id }}">
                         <i class="bi bi-people-fill"></i>Ver postulantes
                     </button>

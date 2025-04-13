@@ -47,3 +47,26 @@ $(document).ready(function () {
         contenedor.appendChild(nuevoInput);
     }
 </script>
+<script>
+$(document).on("click", ".btnEliminarOferta", function () {
+    var ofertaId = $(this).data("id"); // Suponiendo que el botón tiene el ID de la oferta
+
+    if (confirm("¿Estás seguro de que deseas eliminar esta oferta?")) {
+        $.ajax({
+            url: "/ofertas/" + ofertaId,  // La URL del endpoint DELETE
+            method: "DELETE",             // Método DELETE
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function (response) {
+                alert(response.message);  // Mensaje de éxito
+                // Aquí puedes actualizar la interfaz para quitar la oferta eliminada
+                $("#oferta-" + ofertaId).remove();  // Eliminar la fila de la oferta de la tabla, por ejemplo
+            },
+            error: function (xhr) {
+                alert("Hubo un error al eliminar la oferta.");
+            }
+        });
+    }
+});
+</script>
