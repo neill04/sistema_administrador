@@ -7,6 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 class Postulacion extends Pivot
 {
     protected $table = 'postulaciones';
+
+    protected $fillable = [
+        'user_id',
+        'oferta_id',
+        'dni',
+        'telefono',
+        'nombres',
+        'apellidos',
+        'cv',
+    ];
+
     public $timestamps = true;
 
     public function user()

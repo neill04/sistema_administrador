@@ -55,6 +55,7 @@ Route::middleware(['auth', 'can:manage,App\Models\Empresa'])->group(function () 
 // Ruta para la gestión de ofertas
 Route::middleware(['auth'])->group(function () {
     Route::resource('ofertas', OfertaController::class);  
+    Route::get('/ofertas/{oferta}', [OfertaController::class, 'show'])->name('ofertas.show');
 });
 
 Route::middleware(['auth', 'can:view_create,App\Models\Oferta'])->group(function () {
@@ -66,7 +67,7 @@ Route::middleware(['auth', 'can:view_create,App\Models\Oferta'])->group(function
 
 Route::middleware(['auth', 'can:postular,App\Models\User'])->group(function () {
     Route::post('/postulaciones/{oferta}', [PostulacionController::class, 'store'])->name('postulaciones.store');
-    Route::delete('/cancelar-postulacion/{oferta}', [PostulacionController::class, 'cancelarPostulacion'])->name('cancelarPostulacion');
+    Route::delete('/postulaciones/{id}/cancelar', [PostulacionController::class, 'cancelar'])->name('cancelar.postulacion');
 });
 
 

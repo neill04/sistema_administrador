@@ -10,7 +10,7 @@
             <div class="col-md-3">
                 <label for="carrera" class="form-label">Filtrar por Carrera:</label>
                 <select name="carrera" class="form-select">
-                    <option value="">Todos</option>
+                    <option value="">--- Todas las carreras ---</option>
                     <option value="Desarrollo de Sistemas de Información" {{ request('carrera') == 'Desarrollo de Sistemas de Información' ? 'selected' : '' }}>Desarrollo de Sistemas de Información</option>
                     <option value="Construcción Civil" {{ request('carrera') == 'Construcción Civil' ? 'selected' : '' }}>Construcción Civil</option>
                     <option value="Contabilidad" {{ request('carrera') == 'Contabilidad' ? 'selected' : '' }}>Contabilidad</option>
@@ -34,7 +34,9 @@
             </div>
 
             <div class="col-md-2 d-flex align-items-end">
-                <button type="submit" class="btn btn-primary">Filtrar</button>
+                <button type="submit" class="btn btn-dark">
+                    <i class="bi bi-sliders2"></i>  Filtrar
+                </button>
             </div>
         </div>
     </form>
@@ -65,7 +67,9 @@
                     <th>Nro</th>
                     <th>Título</th>
                     <th>Empresa</th>
+                    @if(auth()->user()->role == 'admin' || auth()->user()->role == 'profesor')
                     <th>Postulaciones</th>
+                    @endif
                     <th>Solicitud</th>
                     <th>Acción</th>
                 </tr>
@@ -76,7 +80,9 @@
                     <td>{{ $ofertas->firstItem() + $index }}</td>
                     <td>{{ $oferta->titulo_oferta }}</td>
                     <td>{{ $oferta->empresa->nombre }}</td>
+                    @if(auth()->user()->role == 'admin' || auth()->user()->role == 'profesor')
                     <td>{{ $oferta->postulantes_count }}</td>
+                    @endif
                     <td>{{ $oferta->created_at->format('Y-m-d') }}</td>
                     <td>
                     @if(auth()->user()->role == 'admin')
@@ -86,19 +92,36 @@
                     <button type="submit" class="btn btn-danger btn-sm btnEliminarOferta" title="Inactivar Oferta" data-id="{{ $oferta->id }}">
                         <i class="bi bi-trash"></i>
                     </button>
+                    @elseif(auth()->user()->role == 'profesor')
                     <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#modalPostulantes{{ $oferta->id }}">
                         <i class="bi bi-people-fill"></i>Ver postulantes
                     </button>
                     @elseif(auth()->user()->role == 'estudiante')
-                        <form action="{{ route('postulaciones.store', $oferta->id) }}" method="POST">
-                        @csrf
-                            <button type="submit" class="btn btn-success">
-                                <i class="bi bi-file-earmark-arrow-up"></i> Postularme
-                            </button>
-                        </form>
+                    <div class="d-flex gap-2">
+                        <a href="{{ route('ofertas.show', $oferta->id) }}" type="submit" class="btn btn-primary" data-id="{{ $oferta->id }}" title="Ver oferta">
+                            <i class="bi bi-eye-fill"></i> 
+                        </a>
+                        @php
+                            $yaPostulo = $postulacionesUsuario->firstWhere('oferta_id', $oferta->id);
+                        @endphp
+                        @if ($yaPostulo)
+                            <form action="{{ route('cancelar.postulacion', $yaPostulo->id) }}" method="POST" onsubmit="return confirm('¿Estás seguro de que deseas cancelar tu postulación?')">
+                                @csrf
+                                @method('DELETE')
+                                <button class="btn btn-danger" title="Cancelar postulación">
+                                    <i class="bi bi-x-lg"></i>
+                                </button>
+                            </form>
+                        @else
+                        <button type="submit" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalPostulacion{{ $oferta->id }}" title="Postularme">
+                            <i class="bi bi-send-fill"></i>
+                        </button>
+                        @endif
+                    </div>
                     @endif
                     </td>
                 </tr>
+                @include('bolsa_trabajo.ofertas.modal_edit', ['oferta' => $oferta])
                 @endforeach
             </tbody>
         </table>
@@ -112,7 +135,7 @@
 <!-- Contenedor donde se insertarán los modales -->
 <div id="modalContainer">
     @include('bolsa_trabajo.ofertas.modal_postulantes')
-    @include('bolsa_trabajo.ofertas.modal_edit', ['oferta' => $oferta])
+    @include('bolsa_trabajo.ofertas.modal_postulacion')
 </div>
 
 <!-- Incluir scripts -->

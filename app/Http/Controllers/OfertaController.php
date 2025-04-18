@@ -7,6 +7,9 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Oferta;
 use App\Models\Empresa;
 use App\Models\OfertaAtributo;
+use App\Models\Cv;
+use App\Models\Postulacion;
+
 
 
 class OfertaController extends Controller
@@ -47,8 +50,12 @@ class OfertaController extends Controller
         }
 
         $tiposAtributo = ['Idiomas', 'Experiencia Laboral', 'Funciones', 'Conocimientos', 'Beneficios', 'Competencias'];
+
+        $cv = Cv::where('user_id', Auth::id())->first();
+
+        $postulacionesUsuario = Postulacion::where('user_id', Auth::id())->get();
         
-        return view('bolsa_trabajo.ofertas.index', compact('ofertas', 'empresas', 'tiposAtributo'));
+        return view('bolsa_trabajo.ofertas.index', compact('ofertas', 'empresas', 'tiposAtributo', 'cv', 'postulacionesUsuario'));
     }
 
     public function create()
@@ -127,9 +134,10 @@ class OfertaController extends Controller
         return response()->json(['message' => 'Oferta creada exitosamente'], 201);
     }
 
-    public function show(Oferta $oferta)
+    public function show($id)
     {
-        return view('ofertas.show', compact('oferta'));
+        $oferta = Oferta::with(['empresa', 'atributos'])->findOrFail($id);
+        return view('bolsa_trabajo.ofertas.show', compact('oferta'));
     }
 
     public function edit(Oferta $oferta)
