@@ -4,11 +4,9 @@
             @if(auth()->check() && auth()->user()->role == 'admin')
                 ADMIN
             @elseif(auth()->check() && auth()->user()->role == 'profesor')
-                EMPRESA
+                PROFESOR
             @elseif(auth()->check() && auth()->user()->role == 'estudiante')
                 ESTUDIANTE
-            @else
-                Usuario
             @endif
         </a>
         <div class="collapse navbar-collapse">
@@ -25,7 +23,7 @@
                             @if(auth()->user()->role == 'estudiante')
                             <a class="dropdown-item text-light" href="{{ route('mi.cv') }}">Mi CV</a>
                             <a class="dropdown-item text-light" href="{{ route('ofertas.index') }}">Ofertas de Trabajo</a>
-                            @elseif(auth()->user()->role == 'admin')
+                            @elseif(auth()->user()->role == 'admin' || auth()->user()->role == 'profesor')
                             <a class="dropdown-item text-light" href="{{ route('alumnos.cvs') }}">Alumnos CV</a>
                             <a class="dropdown-item text-light" href="{{ route('ofertas.index') }}">Gestión Trabajo</a>
                             @endif

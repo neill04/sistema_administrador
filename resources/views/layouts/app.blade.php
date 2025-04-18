@@ -36,6 +36,7 @@
 
         @yield('content_mi_cv')
         @yield('content_cvs')
+        @yield('content_show_oferta')
     @endauth
     
     @guest
