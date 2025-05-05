@@ -45,6 +45,7 @@ class Oferta extends Model
     public function postulantes(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'postulaciones', 'oferta_id', 'user_id')
-                    ->withTimestamps();
+                    ->withTimestamps()
+                    ->withPivot('dni', 'telefono', 'nombres', 'apellidos');
     }
 }

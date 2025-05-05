@@ -3,7 +3,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Nueva Empresa</h5>
-                <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form id="empresaForm">
@@ -65,8 +65,9 @@
                     </div>
                     <div class="mb-3">
                         <label for="descripcion" class="form-label">Descripción de la Empresa</label>
-                        <textarea name="descripcion" id="descripcion" class="form-control"></textarea>
+                        <textarea name="descripcion" id="descripcion" class="form-control" rows="3"></textarea>
                     </div>
+                    <!--
                     <div class="mb-3">
                         <label for="banner" class="form-label">Banner</label>
                         <input type="file" name="banner" id="banner" class="form-control" accept="image/jpeg, image/png, image/jpg, image/gif">
@@ -75,6 +76,7 @@
                         <label for="logotipo" class="form-label">Logotipo</label>
                         <input type="file" name="logotipo" id="logotipo" class="form-control" accept="image/jpeg, image/png, image/jpg, image/gif">
                     </div>
+                    -->
                     <button type="submit" class="btn btn-primary">Guardar</button>
                 </form>
             </div>

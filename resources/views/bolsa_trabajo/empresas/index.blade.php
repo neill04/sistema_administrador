@@ -2,7 +2,9 @@
 
 @section('content')
 <div class="container">
+    @if(auth()->user()->role == 'admin')
     <button id="btnCrearEmpresa" class="btn btn-success"> + Nueva Empresa</button><br><br>
+    @endif
     <form method="GET" action="{{ route('empresas.index') }}">
         <div class="row">
             <!-- Filtro por Estado -->
@@ -39,10 +41,11 @@
                     <th>RUC</th>
                     <th>Razón social</th>
                     <th>Tipo Empresa</th>
-                    <th>Reclutador</th>
                     <th>Celular</th>
                     <th>Total</th>
+                    @if(auth()->user()->role == 'admin')
                     <th>Acciones</th>
+                    @endif
                 </tr>
             </thead>
             <tbody>
@@ -52,9 +55,9 @@
                     <td>{{ $empresa->ruc }}</td>
                     <td>{{ $empresa->nombre }}</td>
                     <td>{{ $empresa->empresaTipo->nombre }}</td>
-                    <td>72865396 Neill Elverth Olazabal Chavez</td>
-                    <td>991710428</td>
-                    <td>{{ $empresa->ofertas_count }}</td>
+                    <td>{{ $empresa->telefono1 }}</td>
+                    <td>{{ $empresa->ofertas_count }} <i class="bi bi-info-circle-fill" title="Ofertas"></i></td>
+                    @if(auth()->user()->role == 'admin')
                     <td>
                     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#empresaModal{{ $empresa->id }}" title="Editar">
                         <i class="bi bi-pencil"></i>
@@ -63,6 +66,7 @@
                         <i class="bi bi-trash"></i>
                     </button>
                     </td>
+                    @endif
                 </tr>
                 @endforeach
             </tbody>
