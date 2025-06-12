@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/var/www
+    depends_on:
+      - db
+    environment:
+      DB_CONNECTION: pgsql
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_DATABASE: sistema_administrador
+      DB_USERNAME: neillolazabal
+      DB_PASSWORD: neill
+
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: sistema_administrador
+      POSTGRES_USER: neillolazabal
+      POSTGRES_PASSWORD: neill
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
